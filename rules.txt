@@ -1,4 +1,4 @@
-:one: To play, Download the free "Among Us" mobile app or use this PC Game link: :link:https://uploadhaven.com/download/abf5aafb8f7098fbb0afd22406c7bcfb \n
+:one: To play, Download the free "Among Us" mobile app or use this PC Game link: :link:https://uploadhaven.com/download/abf5aafb8f7098fbb0afd22406c7bcfb 
 
 :two: If you're a crewmate, Do your tasks and stay alive. Watch out for imposters!
 
@@ -6,6 +6,9 @@
 
 :four: When a game is in session, join #Lobby and mute ur mic until a meeting is called.
 
-:five: If imposters win, log it using >won [name_here]
+:five: If you win as an imposter, log it using >win. If you win multiple times, use >win [number]. Winning and staying active can qualify you for different roles. Use >board info for more information.
 
-:six: Don't trust SlickRick
+:six: Use >board to view the leaderboard.  
+
+:seven: Don't trust SlickRick
+
