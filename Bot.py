@@ -29,10 +29,26 @@ def writeJSON(f, info):
 async def on_ready():
     print("Bot is ready")
 
+@tasks.loop(hours=168)
+async def weekly():
+    jContent = readJSON('tst.txt')
+    for user in jContent:
+        jContent[user][0] = 0
+    writeJSON('tst.txt', jContent)
+
+    message_channel = client.get_channel(daScore)
+    print(f"Got channel {message_channel}")
+
+    await message_channel.send("Weekly kills reseted.")
+
+@weekly.before_loop
+async def beforeWeek():
+    await client.wait_until_ready()
+    print("Finished waiting")
 
 @tasks.loop(hours=40)
 async def called_once_a_day(): #actually once every two days
-    message_channel = client.get_channel(admin)
+    message_channel = client.get_channel(daScore)
     print(f"Got channel {message_channel}")
 
     try:
@@ -71,21 +87,6 @@ async def rules(ctx):
         await ctx.send(f.read())
 
 
-
-# @client.command()
-# async def add(ctx, *, names):
-#     try:
-#         jContent = readJSON('score.txt')
-#     except:
-#         jContent = {
-
-#         }
-#     arr = names.split(',')
-#     for name in arr:
-#         jContent[name] = 0 
-#     print(jContent)
-#     writeJSON('score.txt', jContent)
-
 @client.command()
 async def ad(ctx):
     try:
@@ -103,20 +104,6 @@ async def ad(ctx):
     print(jContent)
     
 
-
-
-# @client.command()
-# async def won(ctx,*,user):
-#     try: 
-#         jContent = readJSON('score.txt')
-#         jContent[user] += 1
-#         writeJSON('score.txt', jContent)
-#         await ctx.send(f"""Congrats {user}! Use >score to see master list""")
-#     except Exception as e:
-#         print(e)
-#         await ctx.send("You gave an invalid player name. Please check >score to see what players are registered")
-#         await ctx.send("If you haven't been registered use >add [your_name]")
-
 @client.command()
 async def win(ctx, *, num='1'):
     jContent = readJSON('tst.txt')
@@ -130,19 +117,6 @@ async def win(ctx, *, num='1'):
         print(e)
         await ctx.send("You gave an invalid number or you are not registered. Please check >board to see what players are registered")
         await ctx.send("If you haven't been registered use >add")   
-
-# @client.command()
-# async def score(ctx):
-#     try:
-#         jContent = readJSON('score.txt')
-#         jContent = dict(sorted(jContent.items(), key=operator.itemgetter(1),reverse=True))
-#         print("{:<10} {:<10}".format('Name','Imposter Wins'))
-#         await ctx.send("{:<10} {:<10}".format('Name','Imposter Wins'))
-#         for k, v in jContent.items():
-#             print ("{:<10} {:<10} ".format(k, v))
-#             await ctx.send("{:<10} {:10} ".format(k, v))
-#     except Exception as e:
-#         await ctx.send(e)
 
 
 @client.event
@@ -170,7 +144,7 @@ async def on_message(message):
             msg = message.content[6:]
             print(msg)
             if str(message.channel) == 'admin':
-                channel = client.get_channel(admin)
+                channel = client.get_channel(general)
                 await channel.send(msg)
         elif message.content.startswith(">role"):
             role_list = ["Killer", "Slick", "Anansi the Spider"]
@@ -244,5 +218,6 @@ async def on_message(message):
 
 
 called_once_a_day.start()
+weekly.start()
 
 client.run("NzYwNzUwNjIwMTAwOTE5MzE2.X3QmOQ.z5ND16JAvCiw_94BpG5VyhpOxw0")
