@@ -32,7 +32,7 @@ async def on_ready():
 
 @tasks.loop(hours=40)
 async def called_once_a_day(): #actually once every two days
-    message_channel = client.get_channel(daScore)
+    message_channel = client.get_channel(admin)
     print(f"Got channel {message_channel}")
 
     try:
@@ -170,7 +170,7 @@ async def on_message(message):
             msg = message.content[6:]
             print(msg)
             if str(message.channel) == 'admin':
-                channel = client.get_channel(general)
+                channel = client.get_channel(admin)
                 await channel.send(msg)
         elif message.content.startswith(">role"):
             role_list = ["Killer", "Slick", "Anansi the Spider"]
