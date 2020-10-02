@@ -1,0 +1,18 @@
+name = {'id':[4, 'Joel']}
+
+name[id][1]
+
+
+>won Joel
+
+while name[id][1] != Joel:
+
+for key in name:
+    if name[key][1] == Joel:
+        name[key][0]+= 1
+        break
+
+#update json with id
+
+
+# to replace name[id][1]
