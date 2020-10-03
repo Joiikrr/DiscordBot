@@ -5,14 +5,17 @@ from pandas import json_normalize
 import discord 
 from discord.ext import commands, tasks
 
-client = commands.Bot(command_prefix='>')
+client = commands.Bot(command_prefix='>') #functions will be triggered with this prefix in chat
+
+#channel ID's 
 general = 760654051443867660
 admin = 760790658801205278
 daScore = 760654051443867661
 lobby = 760654051443867663
 
 
-def readJSON(f):
+def readJSON(f): 
+    #reads content of a .txt file and converts to JSON and returns content. All table data is stored in jSON
     with open(f, 'r') as file:
         content = file.read()
         jContent = json.loads(content)
@@ -20,6 +23,7 @@ def readJSON(f):
     return jContent
 
 def writeJSON(f, info):
+    #writes json to .txt file
     with open(f, 'w') as file:
         file.write(json.dumps(info))
         file.close()
@@ -29,17 +33,17 @@ def writeJSON(f, info):
 async def on_ready():
     print("Bot is ready")
 
-@tasks.loop(hours=168)
+@tasks.loop(hours=168) #every week this triggers
 async def weekly():
     jContent = readJSON('tst.txt')
     for user in jContent:
-        jContent[user][0] = 0
+        jContent[user][0] = 0 #resets weekly scores to 0
     writeJSON('tst.txt', jContent)
 
     message_channel = client.get_channel(daScore)
     print(f"Got channel {message_channel}")
 
-    await message_channel.send("Weekly kills reseted.")
+    await message_channel.send("Weekly kills reseted.") 
 
 @weekly.before_loop
 async def beforeWeek():
@@ -47,21 +51,20 @@ async def beforeWeek():
     print("Finished waiting")
 
 @tasks.loop(hours=40)
-async def called_once_a_day(): #actually once every two days
+async def called_once_a_day(): #actually once every two days or so
     message_channel = client.get_channel(daScore)
     print(f"Got channel {message_channel}")
-
     try:
-        jContent = readJSON('tst.txt')
+        jContent = readJSON('tst.txt') 
     except:
-        jContent = {
+        jContent = { 
 
-        }
+        } 
 
     big = 0
     leaders = []
     print(jContent.items())
-    for (k,v) in jContent.items():
+    for (k,v) in jContent.items(): #finds user with the most wins in scoreboard
         if v[1] == big:
             leaders.append(k)
         elif v[1] > big:
@@ -71,7 +74,7 @@ async def called_once_a_day(): #actually once every two days
         if v[1] >= 10:
             pass
     if leaders != []:
-        await message_channel.send(f"{leaders} got the most Alltime kills with {big} kills")
+        await message_channel.send(f"{leaders} got the most Alltime winss with {big} wins")
         await message_channel.send("If you're ever not sure of the commands use >rules")
     leaders = []
 
