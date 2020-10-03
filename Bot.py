@@ -223,4 +223,4 @@ async def on_message(message):
 called_once_a_day.start()
 weekly.start()
 
-client.run("NzYwNzUwNjIwMTAwOTE5MzE2.X3QmOQ.z5ND16JAvCiw_94BpG5VyhpOxw0")
+client.run("NzYwNzUwNjIwMTAwOTE5MzE2.X3QmOQ.z5ND16JAvCiw_94BpG5VyhpOxw0")#bot token goes here. never reveal to anyone. dont worry mine has changed
